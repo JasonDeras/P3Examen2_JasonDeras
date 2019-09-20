@@ -14,8 +14,9 @@ class Node{
 		                         
       public:
       	
-        Node(string _nombre){
-        
+        Node(string value){
+        	this->value=value;
+        	next_node=NULL;
 		}
                          
         void setValue(string value){
