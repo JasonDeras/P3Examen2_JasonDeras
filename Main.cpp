@@ -9,91 +9,160 @@ using namespace std;
 
 int main(){
 	
-	while(true){
-		
-		cout<<"1. Ingresar una cadena\n\n";
-		cout<<"2. Salir\n\n";
-		cout<<"Ingrese una opcion: ";
-		int opcion;
-		cin>>opcion;
-		
-		cout<<"\n\n\n";
-		
-		switch(opcion){
-			
-			case 1:{
-				
-				string delimiter="";
-				
-				cout<<"Ingrese la cadena: ";
-				string cadena;
-				cin>>cadena;
-				ofstream escribir;
+	int r=1;
 	
-				//Con append
-				escribir.open("./salida.txt",ios::app);
+	while (r==1){
 		
-				if(escribir.is_open()){
-					escribir<<cadena<<"=";
-				}else {
-					cout<<"No se pudo abrir el archivo"<<endl;
+		string expresion;
+		cout<<"Ingrese una expresion aritmetica: ";
+		cin>>expresion;
+		
+		Pila* pila=new Pila();
+		int contador=0;
+		
+		string temporal;
+		
+		for (int i=0; i<expresion.size(); i++){
+			
+			temporal="";
+			while (expresion[i]!='+' && expresion[i]!='-' && expresion[i]!='*' && expresion[i]!='/' && i<expresion.size()){
+				
+				temporal+=expresion[i];
+				i++;
+				
+			}//Fin del primer while
+			
+			if (temporal!=""){
+				
+				pila->Push(temporal);
+				temporal="";
+				contador++;
+				
+			}//Fin del primer if
+			
+			if (expresion[i]=='-'){
+				
+				pila->Push("+");
+				contador++;
+				temporal+=expresion[i];
+				i++;
+				
+				while (expresion[i]!='+' && expresion[i]!='-' && expresion[i]!='*' && expresion[i]!='/' && i<expresion.size()){
+					
+					temporal+=expresion[i];
+					i++;
+					
+				}//Fin del segundo while
+				
+			}//Fin del segundo if
+			
+			if (temporal!=""){
+				
+				pila->Push(temporal);
+				temporal="";
+				contador++;
+				
+			}//Fin del tercer if
+			
+			if (expresion[i]=='+' || expresion[i]=='*' || expresion[i]=='/'){
+				
+				temporal+=expresion[i];
+				
+			}//Fin del cuarto if
+			
+			if (temporal!=""){
+				
+				pila->Push(temporal);
+				temporal="";
+				contador++;
+				
+			}//Fin del quinto if
+			
+		}//Fin del for 
+		
+		//Escritura del archivo
+		int contador1=0;
+		int contador_temporal=contador;
+		int result;
+		ofstream escribir;
+        escribir.open("./salida.txt", ios::app);
+        escribir<<"Nueva operacion"<<endl;
+        
+		while (contador1<contador){
+			
+			int contador2=0;
+			Node* node_temporal=pila->Top();
+			
+			while (contador2<contador_temporal){
+				
+				node_temporal->print();
+				escribir<<node_temporal->getValue();
+				node_temporal=node_temporal->getNext_Node();
+				contador2++;
+			}
+			
+			cout<<endl;
+			
+			escribir<<endl;
+			
+			int numero1= atoi(pila->Pop()->getValue().c_str());
+			string operador=pila->Pop()->getValue();
+			int numero2=atoi(pila->Pop()->getValue().c_str());
+			
+			if (operador=="+"){
+				
+				result=numero1+numero2;
+				stringstream conversion;
+				conversion << result;
+				string temp_resultado = conversion.str();
+				pila->Push(temp_resultado);
+				
+			}else{//If de la suma
+				
+				if (operador=="*"){
+					
+					result=numero1*numero2;
+					stringstream conversion;
+					conversion << result;
+					string temp_resultado = conversion.str();
+					pila->Push(temp_resultado);
+					
+				}else{//If de la multiplicacion
+					
+					if (operador=="/"){
+						
+						result=numero2/numero1;
+						stringstream conversion;
+						conversion << result;
+						string temp_resultado = conversion.str();
+						pila->Push(temp_resultado);
+						
+					}//If de la division
 				}
-				escribir.close();
-				
-				for(int i=0;i<cadena.size();i++){
-						
-					Pila* pila=new Pila();
-					delimiter+=cadena.at(i);
-						
-					if(cadena.at(i)=='-'){
-						delimiter=delimiter.size()-1;
-						pila->Push(delimiter);
-						pila->Push("-");
-					}
-						
-					if(cadena.at(i)=='+'){
-						delimiter=delimiter.size()-1;
-						pila->Push(delimiter);
-						pila->Push("+");
-						delimiter="";
-					}
-						
-					if(cadena.at(i)=='*'){
-						delimiter=delimiter.size()-1;
-						pila->Push(delimiter);
-						pila->Push("*");
-						delimiter="";
-					}
-						
-					if(cadena.at(i)=='/'){
-						delimiter=delimiter.size()-1;
-						pila->Push(delimiter);
-						pila->Push("/");
-						delimiter="";
-					}
-	
-				}//Fin del for
-				
-				system("pause");
-				system("cls");
-				break;
-				
-			}//Fin del caso 1
+			}//Fin de los ifs anidados
 			
-			case 2:
-				exit(0);	
-			break;
+			contador1+=3;
+			contador_temporal-=2;
 			
-			default:
-				cout<<"Opcion no valida\n\n\n";
-			break;
-				
-		}//Fin de las opciones del menu
+		}//Fin del while
 		
+		//Impresion y limpieza de memoria
+		pila->Top()->print();
+		escribir<<pila->Top()->getValue();
+		cout<<endl;
 		
-	}//Fin del while repetitivo
+		//Escritura del archivo
+		escribir<<endl<<endl;
+		escribir.close();
+		pila->~Pila();
+		
+		cout<<"Volver al menu?1. Si,2.No: ";
+		cin>>r;
+		system("cls");
+		
+	}//Fin del while
 	
-    system("pause");
-    return 0;
+	system("pause");
+	return 0;
 
 }//Fin del main

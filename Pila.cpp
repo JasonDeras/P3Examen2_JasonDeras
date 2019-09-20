@@ -14,31 +14,32 @@ class Pila{
 		                         
       public:
       	
-        Pila(){	
+      	Pila(){
 		}
-                         
-        void Push(string value){
-        	
-        	Node* temp=new Node(value);
-        	temp->setNext_Node(head);
-        	head=temp;
-        }
-        
-        Node* Pop(){
-        	
-            Node *temp=head;
-            head->getNext_Node();
-            return temp;
-        }
+      	
+       	Pila(Node* head){
+			this->head=head;
+		}
+		
+		void Push(string value){
+			Node* temp=new Node(value);
+			temp->setNext_Node(head);
+			head=temp;
+		}
+		
+		Node* Pop(){
+			Node* temp=head;
+			head=head->getNext_Node();
+			return temp;
+		}
 		
 		Node* Top(){
-			
 			return head;
 		}
 		
 		bool isEmpty(){
-			
-			if(head==NULL){
+			cout<<head->getNext_Node();
+			if (head->getNext_Node()==NULL){
 				return true;
 			}else{
 				return false;
