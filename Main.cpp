@@ -1,8 +1,9 @@
 #include<iostream>
 #include<string.h>
-#include"Pila.cpp"
 #include<bits/stdc++.h>
 #include<string.h>
+#include<fstream>
+#include"Pila.cpp"
 
 using namespace std;
 
@@ -27,6 +28,17 @@ int main(){
 				cout<<"Ingrese la cadena: ";
 				string cadena;
 				cin>>cadena;
+				ofstream escribir;
+	
+				//Con append
+				escribir.open("./salida.txt",ios::app);
+		
+				if(escribir.is_open()){
+					escribir<<cadena<<"=";
+				}else {
+					cout<<"No se pudo abrir el archivo"<<endl;
+				}
+				escribir.close();
 				
 				for(int i=0;i<cadena.size();i++){
 						
