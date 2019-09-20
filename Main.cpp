@@ -22,39 +22,48 @@ int main(){
 			
 			case 1:{
 				
-				string delimiter;
+				string delimiter="";
 				
 				cout<<"Ingrese la cadena: ";
 				string cadena;
 				cin>>cadena;
-					for(int i=0;i<cadena.size();i++){
+				
+				for(int i=0;i<cadena.size();i++){
 						
-						Pila* pila=new Pila();
-						delimiter+=cadena.at(i);
+					Pila* pila=new Pila();
+					delimiter+=cadena.at(i);
 						
-						if(cadena.at(i)=='-'){
-							pila->Push(delimiter);
-							pila->Push("-");
-						}
+					if(cadena.at(i)=='-'){
+						delimiter=delimiter.size()-1;
+						pila->Push(delimiter);
+						pila->Push("-");
+					}
 						
-						if(cadena.at(i)=='+'){
-							pila->Push(delimiter);
-							pila->Push("+");
-						}
+					if(cadena.at(i)=='+'){
+						delimiter=delimiter.size()-1;
+						pila->Push(delimiter);
+						pila->Push("+");
+						delimiter="";
+					}
 						
-						if(cadena.at(i)=='*'){
-							pila->Push(delimiter);
-							pila->Push("*");
-						}
+					if(cadena.at(i)=='*'){
+						delimiter=delimiter.size()-1;
+						pila->Push(delimiter);
+						pila->Push("*");
+						delimiter="";
+					}
 						
-						if(cadena.at(i)=='/'){
-							pila->Push(delimiter);
-							pila->Push("/");
+					if(cadena.at(i)=='/'){
+						delimiter=delimiter.size()-1;
+						pila->Push(delimiter);
+						pila->Push("/");
+						delimiter="";
 					}
 	
 				}//Fin del for
 				
 				system("pause");
+				system("cls");
 				break;
 				
 			}//Fin del caso 1
