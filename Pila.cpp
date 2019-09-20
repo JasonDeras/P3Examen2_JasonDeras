@@ -17,23 +17,27 @@ class Pila{
         Pila(){	
 		}
                          
-        void push(string value){
+        void Push(string value){
+        	
         	Node* temp=new Node(value);
         	temp->setNext_Node(head);
         	head=temp;
         }
         
-        Node* pop(){
+        Node* Pop(){
+        	
             Node *temp=head;
-            head=head->getNext_Node();
+            head->getNext_Node();
             return temp;
         }
 		
 		Node* Top(){
+			
 			return head;
 		}
 		
 		bool isEmpty(){
+			
 			if(head==NULL){
 				return true;
 			}else{

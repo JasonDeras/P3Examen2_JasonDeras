@@ -35,6 +35,11 @@ class Node{
 			return next_node;
 		}
 		
+		void print(){
+			cout<<"Value: "<<value<<endl;
+			cout<<"Next node: "<<next_node<<endl;
+		}
+		
 		~Node(){}             
 };
 #endif
